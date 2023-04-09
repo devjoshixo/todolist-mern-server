@@ -9,7 +9,7 @@ mongoose.connect(
 const port = process.env.PORT || 5000;
 
 app.get('/', (req, res) => {
-  res.send('working');
+  res.json({ success: 'done' });
 });
 
 app.listen(port, (req, res) => {
