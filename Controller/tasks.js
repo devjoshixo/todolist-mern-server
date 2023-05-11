@@ -5,9 +5,7 @@ module.exports.displayTasks = async (req, res) => {
     const tasks = await Tasks.find({});
     res.send(tasks);
   } catch (e) {
-    res
-      .status(404)
-      .json({ errorMessage: 'Error occured while finding contact' });
+    res.status(404).json({ errorMessage: 'Error occured while finding tasks' });
   }
 };
 
@@ -18,6 +16,22 @@ module.exports.addTask = async (req, res) => {
     res.status(200).json('Done');
   } catch (e) {
     console.log('done');
+  }
+};
+
+module.exports.toggleCheck = async (req, res) => {
+  try {
+    const { id } = await req.body;
+    const SelectedTask = await Tasks.findOne({ _id: id });
+    await Tasks.findOneAndUpdate(
+      { _id: id },
+      { checked: !SelectedTask.checked },
+      { new: true }
+    );
+    res.status(200).json({ message: 'Successfully Done' });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ message: 'bad request' });
   }
 };
 
